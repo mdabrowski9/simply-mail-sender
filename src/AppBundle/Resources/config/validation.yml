@@ -1,0 +1,21 @@
+ AppBundle\Entity\FormTemplate:
+     properties:
+         dueDate:
+            - NotBlank: ~
+            - Type: \DateTime
+         topic:
+            - NotBlank: ~
+            - Length:
+                min: 1
+                max: 78
+                minMessage: 'Your topic must be at least {{ limit }} characters long'
+                maxMessage: 'Your topic cannot be longer than {{ limit }} characters'
+         addressee:
+            - NotBlank: ~
+            - Email:
+                message: The email "{{ value }}" is not a valid email.
+                checkMX: true
+         mailBody:
+            - NotBlank: ~
+         signature:
+            - NotBlank: ~
