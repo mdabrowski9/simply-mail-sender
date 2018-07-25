@@ -34,6 +34,24 @@ class MainController extends Controller
             ->add('save', SubmitType::class, array('label' => 'Send Message'))
             ->getForm();
 
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+//
+            // $form->getData() holds the submitted values
+            // but, the original `$task` variable has also been updated
+            $exampleForm = $form->getData();
+            $topic = $exampleForm->getTopic();
+
+            // ... perform some action, such as saving the task to the database
+            // for example, if Task is a Doctrine entity, save it!
+            // $entityManager = $this->getDoctrine()->getManager();
+            // $entityManager->persist($task);
+            // $entityManager->flush();
+
+            return $this->redirectToRoute('task_success');
+        }
+
         return $this->render('default/index.html.twig', array(
             'form' => $form->createView(),
         ));

@@ -16,7 +16,6 @@ class FormTemplate
     protected $createDate;
 
     /**
-     * @Assert\NotBlank()
      * @Assert\Length(
      *      min = 1,
      *      max = 78,
@@ -99,13 +98,12 @@ class FormTemplate
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        $metadata
-            ->addPropertyConstraint('topic', new NotBlank())
-            ->addPropertyConstraint('topic', new Assert\Length(array(
-                'min'        => 1,
-                'max'        => 78,
+        $metadata->addPropertyConstraint('topic', new Assert\Length(array(
+                'min' => 1,
+                'max' => 78,
                 'minMessage' => 'Your topic must be at least {{ limit }} characters long',
-                'maxMessage' => 'Your topic cannot be longer than {{ limit }} characters')));
+                'maxMessage' => 'Your topic cannot be longer than {{ limit }} characters'
+                )));
 
         $metadata
             ->addPropertyConstraint('createDate', new NotBlank())

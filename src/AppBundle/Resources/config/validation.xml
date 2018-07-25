@@ -10,7 +10,6 @@
             <constraint name="Type">\DateTime</constraint>
         </property>
         <property name="topic">
-            <constraint name="NotBlank" />
             <constraint name="Length">
                 <option name="min">1</option>
                 <option name="max">78</option>
