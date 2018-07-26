@@ -30,7 +30,11 @@ services:
         tags: ['controller.service_arguments']
 
     mail_sender:
-          class: AppBundle\Services\ReadNode
+        class: AppBundle\Services\ReadNode
+    get_set_method_normalizer:
+        class: Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer
+        public: false
+        tags: [serializer.normalizer]
 
 
     # add more services, or override services that need manual wiring
