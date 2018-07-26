@@ -2,11 +2,12 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Form\MailForm;
+use AppBundle\Form\Type\MailForm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\FormTemplate;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class MainController extends Controller
@@ -26,19 +27,20 @@ class MainController extends Controller
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-//
-            // $form->getData() holds the submitted values
-            // but, the original `$task` variable has also been updated
+
             $exampleForm = $form->getData();
-            $topic = $exampleForm->getTopic();
+            $msg = array(
+                'topic' => $exampleForm->getTopic(),
+                'addressee' => $exampleForm->getAddressee(),
+                'mailBody' => $exampleForm->getMailBody(),
+                'signature' => $exampleForm->getSignature()
+                );
+            $jsonContent = $this->get('serializer')->serialize($exampleForm, 'json');
+            $this->get('old_sound_rabbit_mq.mail_sender_producer')->publish($jsonContent);
 
-            // ... perform some action, such as saving the task to the database
-            // for example, if Task is a Doctrine entity, save it!
-            // $entityManager = $this->getDoctrine()->getManager();
-            // $entityManager->persist($task);
-            // $entityManager->flush();
+            $this->addFlash('notice', $jsonContent);
 
-            return $this->redirectToRoute('task_success');
+            return $this->redirectToRoute('homepage');
         }
 
         return $this->render('default/index.html.twig', array(
