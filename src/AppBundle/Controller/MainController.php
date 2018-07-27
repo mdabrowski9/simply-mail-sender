@@ -7,12 +7,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\FormTemplate;
-
-use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class MainController extends Controller
@@ -33,12 +27,7 @@ class MainController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $encoders = array(new XmlEncoder(), new JsonEncoder());
-            $normalizers = array(new ObjectNormalizer());
-            $serializer = new Serializer($normalizers, $encoders);
-
-            $jsonContent = $serializer->serialize($exampleForm, 'json');
-            $this->get('old_sound_rabbit_mq.mail_sender_producer')->publish($jsonContent);
+            $this->get('old_sound_rabbit_mq.mail_sender_producer')->publish(serialize($exampleForm));
 
             $this->addFlash('notice', 'Your message was sent!');
 
