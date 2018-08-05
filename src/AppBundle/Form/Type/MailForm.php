@@ -16,7 +16,13 @@ class MailForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('createDate', DateTimeType::class)
+            ->add('createDate', DateTimeType::class, array(
+                'widget' => 'single_text',
+                'format' => 'dd-MM-yyyy HH:mm',
+                'data' => new \DateTime('now'),
+                'attr' => array(
+                    'readonly' => true,
+                )))
             ->add('topic', TextType::class)
             ->add('addressee', EmailType::class)
             ->add('mailBody', TextareaType::class)
