@@ -5,10 +5,7 @@ namespace AppBundle\Services;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use AppBundle\Entity\FormTemplate;
-use Symfony\Bundle\MonologBundle\SwiftMailer;
-use Symfony\Bundle\SwiftmailerBundle;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
 
 class ReadNode
 {
